@@ -1,0 +1,204 @@
+/* =================================
+   SONG CARD
+================================= */
+
+.song-card {
+  background: #242424;
+
+  border-radius: 15px;
+
+  padding: 15px;
+
+  transition: all 0.3s ease;
+
+  cursor: pointer;
+
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+
+/* =================================
+   HOVER
+================================= */
+
+.song-card:hover {
+  transform: translateY(-5px);
+
+  background: #2f2f2f;
+}
+
+
+/* =================================
+   COVER IMAGE
+================================= */
+
+.song-card img {
+  display: block;
+
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  background: #333;
+}
+
+
+/* =================================
+   SONG INFO
+================================= */
+
+.song-info {
+  min-width: 0;
+}
+
+
+/* =================================
+   TITLE
+================================= */
+
+.song-card h3 {
+  margin-top: 12px;
+
+  margin-bottom: 6px;
+
+  color: white;
+
+  font-size: 17px;
+
+  line-height: 1.3;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =================================
+   ARTIST
+================================= */
+
+.song-card p {
+  margin: 0 0 12px;
+
+  color: #aaa;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =================================
+   PLAY BUTTON
+================================= */
+
+.play-button {
+  width: 100%;
+
+  padding: 11px;
+
+  border: none;
+
+  background: #1db954;
+
+  color: white;
+
+  border-radius: 30px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  transition: all 0.2s ease;
+}
+
+
+.play-button:hover {
+  background: #1ed760;
+
+  transform: scale(1.02);
+}
+
+
+.play-button:active {
+  transform: scale(0.98);
+}
+
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 900px) {
+
+  .song-card img {
+    height: 200px;
+  }
+
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 700px) {
+
+  .song-card {
+    padding: 10px;
+
+    border-radius: 12px;
+  }
+
+
+  .song-card img {
+    height: 180px;
+
+    border-radius: 10px;
+  }
+
+
+  .song-card h3 {
+    font-size: 15px;
+
+    margin-top: 10px;
+  }
+
+
+  .song-card p {
+    font-size: 13px;
+  }
+
+
+  .play-button {
+    padding: 9px;
+
+    font-size: 14px;
+  }
+
+}
+
+
+/* =================================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 430px) {
+
+  .song-card img {
+    height: 230px;
+  }
+
+}

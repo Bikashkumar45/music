@@ -1,0 +1,222 @@
+/* =================================
+   SIDEBAR
+================================= */
+
+.sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 250px;
+  height: 100vh;
+
+  background: #000;
+
+  color: white;
+
+  padding: 25px 15px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  z-index: 2000;
+
+  border-right: 1px solid #222;
+}
+
+
+/* =================================
+   SIDEBAR HEADER
+================================= */
+
+.sidebar-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  margin-bottom: 35px;
+}
+
+
+/* =================================
+   LOGO
+================================= */
+
+.sidebar-logo {
+  color: #1db954;
+
+  font-size: 22px;
+
+  white-space: nowrap;
+}
+
+
+/* =================================
+   MENU
+================================= */
+
+.sidebar-menu ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =================================
+   MENU ITEM
+================================= */
+
+.sidebar-menu li {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 15px 10px;
+
+  margin-bottom: 5px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 17px;
+
+  transition: all 0.25s ease;
+}
+
+
+/* =================================
+   MENU HOVER
+================================= */
+
+.sidebar-menu li:hover {
+  background: #1db954;
+
+  color: white;
+
+  transform: translateX(3px);
+}
+
+
+/* =================================
+   ICON
+================================= */
+
+.menu-icon {
+  width: 24px;
+
+  display: inline-flex;
+
+  justify-content: center;
+
+  font-size: 18px;
+}
+
+
+/* =================================
+   CLOSE BUTTON
+================================= */
+
+.sidebar-close {
+  display: none;
+
+  border: none;
+
+  background: transparent;
+
+  color: white;
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+
+/* =================================
+   SIDEBAR SCROLLBAR
+================================= */
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #000;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #333;
+
+  border-radius: 10px;
+}
+
+
+/* =================================
+   MOBILE SIDEBAR
+================================= */
+
+@media (max-width: 700px) {
+
+  .sidebar {
+
+    width: 270px;
+
+    height: 100vh;
+
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
+
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.5);
+
+  }
+
+
+  /* Sidebar open */
+
+  .sidebar.sidebar-open {
+
+    transform: translateX(0);
+
+  }
+
+
+  /* Show close button */
+
+  .sidebar-close {
+
+    display: block;
+
+  }
+
+
+  .sidebar-header {
+
+    margin-bottom: 35px;
+
+  }
+
+}
+
+
+/* =================================
+   VERY SMALL MOBILE
+================================= */
+
+@media (max-width: 400px) {
+
+  .sidebar {
+
+    width: 250px;
+
+  }
+
+}

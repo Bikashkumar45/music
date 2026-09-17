@@ -1,0 +1,360 @@
+/* =================================
+   MUSIC PLAYER
+================================= */
+
+.music-player {
+  position: fixed;
+
+  left: 250px;
+  right: 0;
+  bottom: 0;
+
+  min-height: 95px;
+
+  display: grid;
+
+  grid-template-columns:
+    250px
+    180px
+    1fr
+    150px;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 12px 25px;
+
+  background: #101010;
+
+  border-top: 1px solid #333;
+
+  box-shadow:
+    0 -5px 20px
+    rgba(0, 0, 0, 0.35);
+
+  z-index: 1800;
+}
+
+
+/* =================================
+   EMPTY PLAYER
+================================= */
+
+.empty-player {
+  display: flex;
+
+  justify-content: center;
+
+  color: #888;
+
+  font-size: 14px;
+}
+
+
+/* =================================
+   SONG
+================================= */
+
+.player-song {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+}
+
+
+.player-song img {
+  width: 60px;
+
+  height: 60px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  background: #333;
+
+  flex-shrink: 0;
+}
+
+
+.player-song-info {
+  min-width: 0;
+}
+
+
+.player-song-info h3 {
+  margin: 0 0 5px;
+
+  font-size: 15px;
+
+  color: white;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+.player-song-info p {
+  margin: 0;
+
+  color: #999;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =================================
+   CONTROLS
+================================= */
+
+.player-controls {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+}
+
+
+.player-controls button {
+  width: 38px;
+
+  height: 38px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #292929;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  transition: 0.2s;
+}
+
+
+.player-controls button:hover {
+  background: #1db954;
+
+  transform: scale(1.05);
+}
+
+
+.player-controls
+.play-pause-button {
+  width: 46px;
+
+  height: 46px;
+
+  background: #1db954;
+
+  font-size: 18px;
+}
+
+
+.player-controls
+.play-pause-button:hover {
+  background: #1ed760;
+}
+
+
+/* =================================
+   PROGRESS
+================================= */
+
+.player-progress {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 0;
+}
+
+
+.player-progress span {
+  color: #aaa;
+
+  font-size: 12px;
+
+  min-width: 35px;
+
+  text-align: center;
+}
+
+
+.player-progress input {
+  flex: 1;
+
+  min-width: 0;
+
+  cursor: pointer;
+}
+
+
+/* =================================
+   VOLUME
+================================= */
+
+.player-volume {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+
+.player-volume span {
+  font-size: 16px;
+}
+
+
+.player-volume input {
+  width: 100px;
+
+  cursor: pointer;
+}
+
+
+/* =================================
+   RANGE INPUT
+================================= */
+
+.music-player input[type="range"] {
+  accent-color: #1db954;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 900px) {
+
+  .music-player {
+
+    left: 0;
+
+    grid-template-columns:
+      1fr
+      auto;
+
+    gap: 8px;
+
+    padding: 10px 15px;
+
+  }
+
+
+  .player-song {
+    grid-column: 1;
+  }
+
+
+  .player-controls {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+
+  .player-progress {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+
+  .player-volume {
+    display: none;
+  }
+
+}
+
+
+/* =================================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 500px) {
+
+  .music-player {
+
+    min-height: 105px;
+
+    padding: 8px 12px;
+
+  }
+
+
+  .player-song img {
+
+    width: 48px;
+
+    height: 48px;
+
+  }
+
+
+  .player-song-info h3 {
+
+    font-size: 13px;
+
+  }
+
+
+  .player-song-info p {
+
+    font-size: 11px;
+
+  }
+
+
+  .player-controls {
+
+    gap: 5px;
+
+  }
+
+
+  .player-controls button {
+
+    width: 34px;
+
+    height: 34px;
+
+    font-size: 14px;
+
+  }
+
+
+  .player-controls
+  .play-pause-button {
+
+    width: 40px;
+
+    height: 40px;
+
+  }
+
+}
