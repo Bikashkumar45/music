@@ -1,15 +1,48 @@
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 function Sidebar({ isOpen, onClose }) {
-  const handleItemClick = (item) => {
-    if (item === "Home") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+  /*
+  =================================
+  MENU ITEMS
+  =================================
+  */
 
-    // Mobile पर menu click करने के बाद sidebar बंद होगा
+  const menuItems = [
+    {
+      name: "Home",
+      icon: "🏠",
+      path: "/",
+    },
+    {
+      name: "Trending",
+      icon: "🔥",
+      path: "/trending",
+    },
+    {
+      name: "Favorites",
+      icon: "💗",
+      path: "/favorites",
+    },
+    {
+      name: "Playlist",
+      icon: "🎶",
+      path: "/playlist",
+    },
+    {
+      name: "Settings",
+      icon: "⚙️",
+      path: "/settings",
+    },
+  ];
+
+  /*
+  =================================
+  CLOSE MOBILE SIDEBAR
+  =================================
+  */
+
+  const handleLinkClick = () => {
     if (onClose) {
       onClose();
     }
@@ -17,12 +50,19 @@ function Sidebar({ isOpen, onClose }) {
 
   return (
     <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
-      {/* Sidebar Header */}
+      {/* =========================
+          SIDEBAR HEADER
+      ========================== */}
+
       <div className="sidebar-header">
-        <h2 className="sidebar-logo">🎵 MusicVerse</h2>
+        <NavLink to="/" className="sidebar-logo-link" onClick={handleLinkClick}>
+          <h2 className="sidebar-logo">🎵 MusicVerse</h2>
+        </NavLink>
 
         {/* Mobile Close Button */}
+
         <button
+          type="button"
           className="sidebar-close"
           onClick={onClose}
           aria-label="Close sidebar"
@@ -31,33 +71,27 @@ function Sidebar({ isOpen, onClose }) {
         </button>
       </div>
 
-      {/* Sidebar Menu */}
+      {/* =========================
+          MENU
+      ========================== */}
+
       <nav className="sidebar-menu">
         <ul>
-          <li onClick={() => handleItemClick("Home")}>
-            <span className="menu-icon">🏠</span>
-            <span>Home</span>
-          </li>
+          {menuItems.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                onClick={handleLinkClick}
+                className={({ isActive }) =>
+                  `sidebar-link ${isActive ? "active" : ""}`
+                }
+              >
+                <span className="menu-icon">{item.icon}</span>
 
-          <li onClick={() => handleItemClick("Trending")}>
-            <span className="menu-icon">🔥</span>
-            <span>Trending</span>
-          </li>
-
-          <li onClick={() => handleItemClick("Favorites")}>
-            <span className="menu-icon">💗</span>
-            <span>Favorites</span>
-          </li>
-
-          <li onClick={() => handleItemClick("Playlist")}>
-            <span className="menu-icon">🎶</span>
-            <span>Playlist</span>
-          </li>
-
-          <li onClick={() => handleItemClick("Settings")}>
-            <span className="menu-icon">⚙️</span>
-            <span>Settings</span>
-          </li>
+                <span>{item.name}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>

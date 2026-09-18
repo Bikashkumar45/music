@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./MusicPlayer.css";
 
-function MusicPlayer({ song, onPrevious, onNext }) {
+function MusicPlayer({
+  song,
+  onPrevious,
+  onNext,
+}) {
   const audioRef = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,9 +13,12 @@ function MusicPlayer({ song, onPrevious, onNext }) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
 
-  /* =================================
-     NEW SONG
-  ================================= */
+  /*
+  =====================================================
+  NEW SONG SELECTED
+  AUTOMATICALLY PLAY SONG
+  =====================================================
+  */
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -20,17 +27,44 @@ function MusicPlayer({ song, onPrevious, onNext }) {
       return;
     }
 
+    // Set new song
     audio.src = song.audio;
-    audio.load();
 
+    // Set volume
+    audio.volume = volume;
+
+    // Reset progress
     setCurrentTime(0);
     setDuration(0);
-    setIsPlaying(false);
+
+    // Load new audio
+    audio.load();
+
+    /*
+    IMPORTANT:
+    Automatically play selected song
+    */
+
+    const autoPlay = async () => {
+      try {
+        await audio.play();
+
+        setIsPlaying(true);
+      } catch (error) {
+        console.error("Auto play failed:", error);
+
+        setIsPlaying(false);
+      }
+    };
+
+    autoPlay();
   }, [song]);
 
-  /* =================================
-     AUDIO EVENTS
-  ================================= */
+  /*
+  =====================================================
+  AUDIO EVENTS
+  =====================================================
+  */
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -39,40 +73,89 @@ function MusicPlayer({ song, onPrevious, onNext }) {
       return;
     }
 
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration || 0);
+    };
+
     const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
     };
 
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration || 0);
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
     };
 
     const handleEnded = () => {
       setIsPlaying(false);
 
+      // Automatically play next song
       if (onNext) {
         onNext();
       }
     };
 
-    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener(
+      "loadedmetadata",
+      handleLoadedMetadata
+    );
 
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener(
+      "timeupdate",
+      handleTimeUpdate
+    );
 
-    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener(
+      "play",
+      handlePlay
+    );
+
+    audio.addEventListener(
+      "pause",
+      handlePause
+    );
+
+    audio.addEventListener(
+      "ended",
+      handleEnded
+    );
 
     return () => {
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener(
+        "loadedmetadata",
+        handleLoadedMetadata
+      );
 
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener(
+        "timeupdate",
+        handleTimeUpdate
+      );
 
-      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener(
+        "play",
+        handlePlay
+      );
+
+      audio.removeEventListener(
+        "pause",
+        handlePause
+      );
+
+      audio.removeEventListener(
+        "ended",
+        handleEnded
+      );
     };
   }, [onNext]);
 
-  /* =================================
-     PLAY / PAUSE
-  ================================= */
+  /*
+  =====================================================
+  PLAY / PAUSE
+  =====================================================
+  */
 
   const togglePlay = async () => {
     const audio = audioRef.current;
@@ -84,28 +167,51 @@ function MusicPlayer({ song, onPrevious, onNext }) {
     try {
       if (audio.paused) {
         await audio.play();
-
-        setIsPlaying(true);
       } else {
         audio.pause();
-
-        setIsPlaying(false);
       }
     } catch (error) {
-      console.error("Audio playback error:", error);
-
-      setIsPlaying(false);
+      console.error(
+        "Play/Pause error:",
+        error
+      );
     }
   };
 
-  /* =================================
-     PROGRESS
-  ================================= */
+  /*
+  =====================================================
+  PREVIOUS SONG
+  =====================================================
+  */
 
-  const handleProgress = (e) => {
+  const handlePrevious = () => {
+    if (onPrevious) {
+      onPrevious();
+    }
+  };
+
+  /*
+  =====================================================
+  NEXT SONG
+  =====================================================
+  */
+
+  const handleNext = () => {
+    if (onNext) {
+      onNext();
+    }
+  };
+
+  /*
+  =====================================================
+  PROGRESS BAR
+  =====================================================
+  */
+
+  const handleProgressChange = (e) => {
     const audio = audioRef.current;
 
-    if (!audio || !duration) {
+    if (!audio) {
       return;
     }
 
@@ -116,11 +222,13 @@ function MusicPlayer({ song, onPrevious, onNext }) {
     setCurrentTime(newTime);
   };
 
-  /* =================================
-     VOLUME
-  ================================= */
+  /*
+  =====================================================
+  VOLUME
+  =====================================================
+  */
 
-  const handleVolume = (e) => {
+  const handleVolumeChange = (e) => {
     const audio = audioRef.current;
 
     const newVolume = Number(e.target.value);
@@ -132,9 +240,11 @@ function MusicPlayer({ song, onPrevious, onNext }) {
     }
   };
 
-  /* =================================
-     FORMAT TIME
-  ================================= */
+  /*
+  =====================================================
+  FORMAT TIME
+  =====================================================
+  */
 
   const formatTime = (time) => {
     if (!Number.isFinite(time)) {
@@ -145,81 +255,148 @@ function MusicPlayer({ song, onPrevious, onNext }) {
 
     const seconds = Math.floor(time % 60);
 
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
-  /* =================================
-     NO SONG SELECTED
-  ================================= */
+  /*
+  =====================================================
+  NO SONG SELECTED
+  =====================================================
+  */
 
   if (!song) {
     return (
       <div className="music-player empty-player">
-        <p>Select a song to start playing 🎵</p>
+        <p>
+          Select a song to start playing 🎵
+        </p>
       </div>
     );
   }
 
+  /*
+  =====================================================
+  PLAYER UI
+  =====================================================
+  */
+
   return (
     <div className="music-player">
-      {/* Hidden Audio */}
-      <audio ref={audioRef} />
 
-      {/* Song Information */}
+      {/* Audio Element */}
+
+      <audio
+        ref={audioRef}
+        preload="auto"
+      />
+
+      {/* =========================
+          SONG INFORMATION
+      ========================== */}
+
       <div className="player-song">
+
         <img
           src={song.cover}
           alt={song.title}
           onError={(e) => {
-            e.currentTarget.src = "/images/default-cover.jpg";
+            e.currentTarget.src =
+              "/images/default-cover.jpg";
           }}
         />
 
         <div className="player-song-info">
-          <h3 title={song.title}>{song.title}</h3>
 
-          <p title={song.artist}>{song.artist}</p>
+          <h3>
+            {song.title}
+          </h3>
+
+          <p>
+            {song.artist}
+          </p>
+
         </div>
+
       </div>
 
-      {/* Controls */}
+      {/* =========================
+          PLAYER CONTROLS
+      ========================== */}
+
       <div className="player-controls">
-        <button type="button" onClick={onPrevious} title="Previous">
+
+        {/* Previous */}
+
+        <button
+          type="button"
+          onClick={handlePrevious}
+          title="Previous Song"
+        >
           ⏮
         </button>
+
+        {/* Play / Pause */}
 
         <button
           type="button"
           className="play-pause-button"
           onClick={togglePlay}
-          title={isPlaying ? "Pause" : "Play"}
+          title={
+            isPlaying
+              ? "Pause"
+              : "Play"
+          }
         >
           {isPlaying ? "⏸" : "▶"}
         </button>
 
-        <button type="button" onClick={onNext} title="Next">
+        {/* Next */}
+
+        <button
+          type="button"
+          onClick={handleNext}
+          title="Next Song"
+        >
           ⏭
         </button>
+
       </div>
 
-      {/* Progress */}
+      {/* =========================
+          PROGRESS
+      ========================== */}
+
       <div className="player-progress">
-        <span>{formatTime(currentTime)}</span>
+
+        <span>
+          {formatTime(currentTime)}
+        </span>
 
         <input
           type="range"
           min="0"
           max={duration || 0}
           value={currentTime}
-          onChange={handleProgress}
+          onChange={handleProgressChange}
         />
 
-        <span>{formatTime(duration)}</span>
+        <span>
+          {formatTime(duration)}
+        </span>
+
       </div>
 
-      {/* Volume */}
+      {/* =========================
+          VOLUME
+      ========================== */}
+
       <div className="player-volume">
-        <span>🔊</span>
+
+        <span>
+          🔊
+        </span>
 
         <input
           type="range"
@@ -227,9 +404,11 @@ function MusicPlayer({ song, onPrevious, onNext }) {
           max="1"
           step="0.01"
           value={volume}
-          onChange={handleVolume}
+          onChange={handleVolumeChange}
         />
+
       </div>
+
     </div>
   );
 }

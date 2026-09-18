@@ -44,6 +44,17 @@
 
 
 /* =================================
+   LOGO LINK
+================================= */
+
+.sidebar-logo-link {
+  text-decoration: none;
+
+  color: inherit;
+}
+
+
+/* =================================
    LOGO
 ================================= */
 
@@ -53,6 +64,14 @@
   font-size: 22px;
 
   white-space: nowrap;
+
+  margin: 0;
+
+  transition: 0.25s ease;
+}
+
+.sidebar-logo:hover {
+  opacity: 0.85;
 }
 
 
@@ -69,19 +88,32 @@
 
 
 /* =================================
-   MENU ITEM
+   MENU LI
 ================================= */
 
 .sidebar-menu li {
+  list-style: none;
+
+  margin-bottom: 5px;
+
+  padding: 0;
+}
+
+
+/* =================================
+   SIDEBAR LINK
+================================= */
+
+.sidebar-link {
   display: flex;
 
   align-items: center;
 
   gap: 10px;
 
-  padding: 15px 10px;
+  width: 100%;
 
-  margin-bottom: 5px;
+  padding: 15px 10px;
 
   border-radius: 8px;
 
@@ -89,20 +121,40 @@
 
   font-size: 17px;
 
-  transition: all 0.25s ease;
+  color: white;
+
+  text-decoration: none;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
 
 /* =================================
-   MENU HOVER
+   HOVER
 ================================= */
 
-.sidebar-menu li:hover {
+.sidebar-link:hover {
   background: #1db954;
 
   color: white;
 
   transform: translateX(3px);
+}
+
+
+/* =================================
+   ACTIVE LINK
+================================= */
+
+.sidebar-link.active {
+  background: #1db954;
+
+  color: white;
+
+  font-weight: 600;
 }
 
 
@@ -113,7 +165,11 @@
 .menu-icon {
   width: 24px;
 
+  min-width: 24px;
+
   display: inline-flex;
+
+  align-items: center;
 
   justify-content: center;
 
@@ -137,6 +193,8 @@
   font-size: 22px;
 
   cursor: pointer;
+
+  padding: 5px;
 }
 
 
@@ -173,14 +231,15 @@
 
     transform: translateX(-100%);
 
-    transition: transform 0.3s ease;
+    transition:
+      transform 0.3s ease;
 
-    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.5);
-
+    box-shadow:
+      8px 0 30px rgba(0, 0, 0, 0.5);
   }
 
 
-  /* Sidebar open */
+  /* Sidebar Open */
 
   .sidebar.sidebar-open {
 
@@ -189,7 +248,7 @@
   }
 
 
-  /* Show close button */
+  /* Close Button */
 
   .sidebar-close {
 
@@ -208,7 +267,7 @@
 
 
 /* =================================
-   VERY SMALL MOBILE
+   SMALL MOBILE
 ================================= */
 
 @media (max-width: 400px) {
